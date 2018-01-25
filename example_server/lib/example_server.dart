@@ -18,7 +18,7 @@ Future configureServer(Angel app) async {
   await app.configure(configuration.configureServer(const LocalFileSystem()));
   await app.configure(services.configureServer);
 
-  app.use(
+  app.mount(
     '/admin',
     new AngelAdmin(
       serviceConfig: [
