@@ -1,0 +1,13 @@
+{
+  "name": "angel-admin-frontend",
+  "version": "0.0.1",
+  "scripts": {
+    "postinstall": "bower install",
+    "build": "polymer build",
+    "start": "polymer serve"
+  },
+  "devDependencies": {
+    "bower": "^1.8.2",
+    "polymer-cli": "^1.5.7"
+  }
+}

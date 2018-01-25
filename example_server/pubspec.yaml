@@ -2,7 +2,9 @@ description: "An easily-extensible web server framework in Dart."
 homepage: "https://github.com/angel-dart/angel"
 name: "example_server"
 publish_to: "none"
-dependencies: 
+dependencies:
+  angel_admin:
+    path: ../angel_admin
   angel_auth: "^1.1.0-alpha"
   angel_configuration: "^1.1.0-alpha"
   angel_cors: "^1.0.0"
