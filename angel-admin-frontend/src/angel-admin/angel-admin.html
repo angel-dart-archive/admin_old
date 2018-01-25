@@ -51,7 +51,7 @@
                 on-error="handleError"
                 last-response="{{schema}}"
                 loading="{{loading}}"
-                url="[[computeSchemaUrl(url)]]"
+                url="[[__computeSchemaUrl(url)]]"
                 handle-as="json"
                 headers='{"accept":"application/json"}'>
         </iron-ajax>
@@ -110,7 +110,7 @@
           };
         }
 
-        computeSchemaUrl(url) {
+        __computeSchemaUrl(url) {
           return `${url || ''}/schema`;
         }
 
