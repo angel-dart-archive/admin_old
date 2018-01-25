@@ -1,32 +1,135 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../admin-dashboard/admin-dashboard.html">
 
 <dom-module id="angel-admin">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-    <h2>Hello [[prop1]]!</h2>
-  </template>
+    <template>
+        <style>
+            :host {
+                @apply(--layout-flex);
+            }
 
-  <script>
-    /**
-     * @customElement
-     * @polymer
-     */
-    class AngelAdmin extends Polymer.Element {
-      static get is() { return 'angel-admin'; }
-      static get properties() {
-        return {
-          prop1: {
-            type: String,
-            value: 'angel-admin'
+            img[slot="top"] {
+                height: 2em;
+                margin-right: 1em;
+                margin-top: -0.4em;
+            }
+
+            paper-fab {
+                background-color: var(--primary-color);
+                position: fixed;
+                bottom: 1em;
+                right: 1em;
+            }
+
+            paper-header-panel {
+                @apply(--layout-flex);
+            }
+
+            paper-progress {
+                --paper-progress-active-color: var(--primary-color);
+            }
+
+            .title {
+                margin-left: 0;
+            }
+        </style>
+
+        <iron-ajax
+                id="getSchema"
+                on-error="handleError"
+                last-response="{{schema}}"
+                loading="{{loading}}"
+                url="[[computeSchemaUrl(url)]]"
+                handle-as="json"
+                headers='{"accept":"application/json"}'>
+        </iron-ajax>
+
+        <template is="dom-if" if="[[!schema]]">
+            <paper-header-panel>
+                <paper-toolbar slot="header">
+                    <img src="/favicon-white.png" alt="Angel Admin" slot="top">
+                    <div class="title" slot="top">Connect to a Server</div>
+
+                    <template is="dom-if" if="[[loading]]">
+                        <paper-progress class="fit" slot="bottom" indeterminate></paper-progress>
+                    </template>
+                </paper-toolbar>
+                <div class="fit" style="padding: 1em;">
+                    <paper-fab on-tap="getSchema" icon="chevron-right"></paper-fab>
+                    <paper-toast id="toast">[[errorMessage]]</paper-toast>
+                    <paper-input label="Admin API Base URL" value="{{url}}"></paper-input>
+                </div>
+            </paper-header-panel>
+        </template>
+
+        <template is="dom-if" if="[[schema]]">
+            <admin-dashboard
+                    schema="{{schema}}"
+                    url="[[url]]">
+            </admin-dashboard>
+        </template>
+    </template>
+
+    <script>
+      /**
+       * @customElement
+       * @polymer
+       */
+      class AngelAdmin extends Polymer.Element {
+        static get is() {
+          return 'angel-admin';
+        }
+
+        static get properties() {
+          return {
+            errorMessage: String,
+            loading: {
+              type: Boolean,
+              value: false
+            },
+            schema: {
+              type: Object,
+              value: null
+            },
+            url: {
+              type: String,
+              value: 'http://localhost:3000/admin'
+            }
+          };
+        }
+
+        computeSchemaUrl(url) {
+          return `${url || ''}/schema`;
+        }
+
+        handleError(e) {
+          let err = e.detail || e;
+          err = err.error || err;
+          this.errorMessage = err.message || err.toString();
+          this.$.toast.open();
+        }
+
+        getSchema() {
+          try {
+            this.$.getSchema.generateRequest();
+          } catch (e) {
+            this.handleError(e);
           }
-        };
+        }
       }
-    }
 
-    window.customElements.define(AngelAdmin.is, AngelAdmin);
-  </script>
+      window.customElements.define(AngelAdmin.is, AngelAdmin);
+    </script>
 </dom-module>

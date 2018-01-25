@@ -1,20 +1,41 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <title>angel-admin-frontend</title>
+    <title>Angel Admin</title>
     <meta name="description" content="The frontend for Angel&#39;s admin panel.">
 
     <!-- See https://goo.gl/OOhYW5 -->
     <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/favicon-white.png">
 
     <script src="/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
 
+    <link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout.html">
+    <link rel="import" href="/bower_components/paper-styles/paper-styles.html">
+
+    <style>
+        :root {
+            --primary-color: var(--paper-blue-500);
+            --site-background: var(--paper-grey-100);
+        }
+
+        html, body {
+            @apply(--layout);
+            @apply(--layout-fullbleed);
+            @apply(--layout-vertical);
+            background-color: var(--site-background);
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
     <link rel="import" href="/src/angel-admin/angel-admin.html">
-  </head>
-  <body>
-    <angel-admin></angel-admin>
-  </body>
+</head>
+<body>
+<angel-admin></angel-admin>
+</body>
 </html>

@@ -3,7 +3,10 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$/angel-admin-frontend" />
-    <content url="file://$MODULE_DIR$/angel_admin" />
+    <content url="file://$MODULE_DIR$/angel_admin">
+      <excludeFolder url="file://$MODULE_DIR$/angel_admin/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/angel_admin/build" />
+    </content>
     <content url="file://$MODULE_DIR$/example_server">
       <excludeFolder url="file://$MODULE_DIR$/example_server/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/example_server/build" />

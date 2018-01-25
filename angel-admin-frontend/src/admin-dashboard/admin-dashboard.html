@@ -1,0 +1,52 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+
+<dom-module id="admin-dashboard">
+    <template>
+        <style>
+            a {
+                color: var(--dark-theme-text-color);
+                text-decoration: none;
+            }
+        </style>
+
+        <paper-header-panel slot="main">
+            <paper-toolbar slot="header">
+                <paper-icon-button on-tap="clearSchema" icon="chevron-left" slot="top"></paper-icon-button>
+                <div class="title" slot="top">Dashboard</div>
+            </paper-toolbar>
+            <div class="fit">
+            </div>
+        </paper-header-panel>
+    </template>
+
+    <script>
+      class AdminDashboard extends Polymer.Element {
+        static get is() {
+          return 'admin-dashboard';
+        }
+
+        static get properties() {
+          return {
+            desktop: Boolean,
+            url: String,
+            schema: {
+              type: Object,
+              notify: true
+            }
+          };
+        }
+
+        clearSchema() {
+          this.schema = null;
+        }
+      }
+
+      window.customElements.define(AdminDashboard.is, AdminDashboard);
+    </script>
+</dom-module>

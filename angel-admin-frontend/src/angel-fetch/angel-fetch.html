@@ -1,0 +1,17 @@
+<script src="../../bower_components/fetch/fetch.js"></script>
+<script>
+  function angelFetch(url, options) {
+    return fetch(url, options)
+      .then(res => {
+        if (!res.ok)
+          throw new Error(`${res.url}: ${res.status} ${res.statusText}`);
+        return res;
+      })
+      .then(res => res.json())
+      .then(res => {
+        if (res.isError)
+          throw res;
+        return res;
+      });
+  }
+</script>
