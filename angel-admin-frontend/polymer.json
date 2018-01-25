@@ -5,6 +5,7 @@
     ]
   },
   "sources": [
-    "favicon.png"
+    "favicon.png",
+    "favicon-white.png"
   ]
 }
