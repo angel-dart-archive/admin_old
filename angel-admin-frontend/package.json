@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "postinstall": "bower install",
-    "build": "polymer build",
+    "build": "polymer build --bundle",
     "start": "polymer serve"
   },
   "devDependencies": {
