@@ -1,0 +1,7 @@
+{
+  "name": "angel-admin-frontend",
+  "short_name": "angel-admin-frontend",
+  "description": "The frontend for Angel&#39;s admin panel.",
+  "start_url": "/",
+  "display": "standalone"
+}
