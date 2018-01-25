@@ -67,6 +67,8 @@
 
         <iron-media-query query="(min-width: 769px)" query-matches="{{desktop}}"></iron-media-query>
 
+        <profile-manager id="profileManager" desktop="[[desktop]]" profiles="{{config.profiles}}"></profile-manager>
+
         <paper-dialog
                 id="clearSchemaDialog"
                 on-iron-overlay-closed="__handleClearSchemaDialogClosed"
@@ -87,17 +89,11 @@
             <paper-header-panel slot="drawer">
                 <paper-toolbar class="tall" slot="header">
                     <div class="title" slot="bottom">
-                        [No Profile Selected]
+                        [No Active Profile]
                     </div>
+                    <paper-icon-button on-tap="openProfileManager" icon="arrow-drop-down" slot="bottom"></paper-icon-button>
                 </paper-toolbar>
                 <paper-listbox class="fit" selected="{{routeData.path}}" attr-for-selected="name">
-                    <paper-icon-item name="profile-manager">
-                        <iron-icon icon="social:person" slot="item-icon"></iron-icon>
-                        <paper-item-body two-line>
-                            <div>Authentication</div>
-                            <div secondary>Add or switch user profiles</div>
-                        </paper-item-body>
-                    </paper-icon-item>
                     <paper-icon-item on-tap="__clearSchema">
                         <iron-icon icon="exit-to-app" slot="item-icon"></iron-icon>
                         <paper-item-body two-line>
@@ -116,9 +112,6 @@
                     slot="main">
                 <neon-animatable name="home">
                     TODO: Dashboard home
-                </neon-animatable>
-                <neon-animatable name="profile-manager">
-                    <profile-manager desktop="[[desktop]]" profiles="{{config.profiles}}"></profile-manager>
                 </neon-animatable>
             </neon-animated-pages>
         </paper-drawer-panel>
@@ -164,6 +157,10 @@
 
         __toggleDrawer() {
           this.$.drawer.togglePanel();
+        }
+
+        openProfileManager() {
+          this.$.profileManager.open();
         }
       }
 
