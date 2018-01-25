@@ -5,10 +5,10 @@ class AngelAdmin extends Routable {
   final List<ServiceConfiguration> serviceConfig;
 
   AngelAdmin({this.serviceConfig}) {
-    get('/schema', getSchema());
+    get('/schema', schema);
   }
 
-  Map<String, dynamic> getSchema() {
+  Map<String, dynamic> get schema {
     return {
       'services': serviceConfig
     };
