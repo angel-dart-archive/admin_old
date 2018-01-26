@@ -1,0 +1,59 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+
+<dom-module id="new-profile">
+    <template>
+        <paper-dialog
+                id="dialog"
+                entry-animation="scale-up-animation"
+                exit-animation="fade-out-animation"
+                modal>
+            <h2>New Profile...</h2>
+            <paper-dialog-scrollable>
+                <iron-form id="form" on-iron-form-presubmit="__handleSubmit">
+                    <form>
+                        <paper-input label="Profile Name" name="name"></paper-input>
+                        <paper-input label="User ID" name="user_id"></paper-input>
+                    </form>
+                </iron-form>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-dismiss>Cancel</paper-button>
+                <paper-button on-tap="__submit">OK</paper-button>
+            </div>
+        </paper-dialog>
+    </template>
+
+    <script>
+      class NewProfile extends Polymer.Element {
+        static get is() {
+          return 'new-profile';
+        }
+
+        __handleSubmit(e) {
+          e.preventDefault();
+          this.close();
+          this.dispatchEvent(new CustomEvent('profile', {detail: e.target.serializeForm()}));
+        }
+
+        __submit() {
+          this.$.form.submit();
+        }
+
+        close() {
+          this.$.dialog.close();
+        }
+
+        open() {
+          this.$.dialog.open();
+        }
+      }
+
+      window.customElements.define(NewProfile.is, NewProfile);
+    </script>
+</dom-module>

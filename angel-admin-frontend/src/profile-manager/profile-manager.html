@@ -18,6 +18,7 @@
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../angel-fetch/angel-fetch.html">
+<link rel="import" href="../new-profile/new-profile.html">
 
 <dom-module id="profile-manager">
     <template>
@@ -59,6 +60,8 @@
                 padding: 1em;
             }
         </style>
+
+        <new-profile id="newProfile" on-profile="__handleProfile"></new-profile>
 
         <paper-dialog
                 id="dialog"
@@ -128,9 +131,14 @@
           };
         }
 
+        __handleProfile(e) {
+          this.push('profiles', e.detail);
+        }
+
         __handleSelect(e) {
           if (e.detail.item.id === 'new-profile') {
-
+            this.$.newProfile.open();
+            this.index = null;
           }
         }
 
