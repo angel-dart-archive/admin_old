@@ -26,7 +26,8 @@ Future configureServer(Angel app) async {
 
   auth.serializer = (User user) => user.id;
 
-  auth.deserializer = (String id) => app.service('api/users').read(id).then(User.parse);
+  auth.deserializer =
+      (String id) => app.service('api/users').read(id).then(User.parse);
 
   app.use(auth.decodeJwt);
   await app.configure(auth.configureServer);
@@ -38,7 +39,15 @@ Future configureServer(Angel app) async {
     new AngelAdmin(
       auth: auth,
       serviceConfig: [
-        new ServiceConfiguration(path: 'api/todos'),
+        new ServiceConfiguration(
+          path: 'api/users',
+          icon: 'social:person',
+          name: 'Users',
+        ),
+        new ServiceConfiguration(
+          path: 'api/todos',
+          name: 'Todos',
+        ),
       ],
     ),
   );

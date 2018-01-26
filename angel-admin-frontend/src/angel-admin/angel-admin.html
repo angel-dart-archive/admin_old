@@ -1,5 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
@@ -53,6 +54,8 @@
             }
         </style>
 
+        <app-location route="{{route}}"></app-location>
+
         <iron-ajax
                 id="getSchema"
                 on-error="__handleError"
@@ -85,6 +88,7 @@
             <neon-animatable entry-animation="slide-from-right-animation" exit-animation="slide-right-animation">
                 <admin-dashboard
                         on-error="__handleError"
+                        route="{{route}}"
                         schema="{{schema}}"
                         url="[[url]]">
                 </admin-dashboard>
@@ -105,6 +109,7 @@
         static get properties() {
           return {
             errorMessage: String,
+            route: Object,
             loading: {
               type: Boolean,
               value: false

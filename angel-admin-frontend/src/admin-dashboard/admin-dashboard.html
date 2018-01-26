@@ -1,6 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">
-<link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/iron-icons/device-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
@@ -22,6 +21,7 @@
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../profile-manager/profile-manager.html">
+<link rel="import" href="../service-manager/service-manager.html">
 
 <dom-module id="admin-dashboard">
     <template>
@@ -52,7 +52,6 @@
             }
         </style>
 
-        <app-location route="{{route}}"></app-location>
         <app-route
                 route="{{route}}"
                 pattern="/:page"
@@ -128,10 +127,15 @@
                     class="fit"
                     selected="{{routeData.path}}"
                     attr-for-selected="name"
+                    entry-animation="slide-from-right-animation"
+                    exit-animation="fade-out-animation"
                     fallback-selection="home"
                     slot="main">
                 <neon-animatable name="home">
                     TODO: Dashboard home
+                </neon-animatable>
+                <neon-animatable name="services">
+                    <service-manager desktop="[[desktop]]" services="[[schema.services]]"></service-manager>
                 </neon-animatable>
             </neon-animated-pages>
         </paper-drawer-panel>
@@ -149,6 +153,10 @@
             desktop: Boolean,
             profile: Object,
             url: String,
+            route: {
+              type: Object,
+              notify: true,
+            },
             schema: {
               type: Object,
               notify: true

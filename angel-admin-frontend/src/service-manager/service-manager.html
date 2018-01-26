@@ -1,0 +1,123 @@
+<link rel="import" href="../../bower_components/font-roboto/roboto.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/av-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/communication-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/device-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/editor-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/hardware-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/image-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/places-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+
+<dom-module id="service-manager">
+    <template>
+        <style>
+            iron-list, paper-header-panel {
+                height: 100%;
+            }
+
+            p {
+                color: var(--paper-grey-700);
+                font-family: 'Roboto', 'Noto', sans-serif;
+            }
+
+            paper-card {
+                margin-bottom: 1em;
+                width: 100%;
+            }
+
+            paper-icon-item {
+                --paper-item-disabled: {
+                    color: var(--light-theme-text-color);
+                }
+            }
+
+            paper-listbox {
+                background-color: var(--site-background);
+            }
+
+            .card-actions paper-button {
+                color: var(--primary-color);
+            }
+
+            .fit:not(paper-progress) {
+                padding: 1em;
+            }
+        </style>
+
+        <paper-header-panel>
+            <paper-toolbar slot="header">
+                <template is="dom-if" if="[[!desktop]]">
+                    <paper-icon-button icon="menu" slot="top"></paper-icon-button>
+                </template>
+                <div class="title" slot="top">Services ([[services.length]])</div>
+            </paper-toolbar>
+
+            <div class="fit">
+                <template is="dom-if" if="[[!services.length]]">
+                    <p>No services registered.</p>
+                </template>
+
+                <iron-list items="[[services]]" as="service">
+                    <template>
+                        <div style="padding-bottom: 1em;">
+                            <paper-card>
+                                <paper-icon-item disabled>
+                                    <iron-icon icon="[[__computeIcon(service)]]" slot="item-icon"></iron-icon>
+                                    <template is="dom-if" if="[[!service.name]]">
+                                        [[service.path]]
+                                    </template>
+                                    <template is="dom-if" if="[[service.name]]">
+                                        <paper-item-body two-line>
+                                            <div>[[service.name]]</div>
+                                            <div secondary>[[service.path]]</div>
+                                        </paper-item-body>
+                                    </template>
+                                </paper-icon-item>
+                                <div class="card-actions">
+                                    <paper-button>Manage</paper-button>
+                                </div>
+                            </paper-card>
+                        </div>
+                    </template>
+                </iron-list>
+            </div>
+        </paper-header-panel>
+    </template>
+
+    <script>
+      class ServiceManager extends Polymer.Element {
+        static get is() {
+          return 'service-manager';
+        }
+
+        static get properties() {
+          return {
+            services: {
+              type: Array,
+              value: []
+            }
+          };
+        }
+
+        __computeIcon(service) {
+          return service.icon || 'device:storage';
+        }
+      }
+
+      window.customElements.define(ServiceManager.is, ServiceManager);
+    </script>
+</dom-module>
