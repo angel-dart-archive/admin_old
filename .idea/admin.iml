@@ -11,6 +11,7 @@
       <excludeFolder url="file://$MODULE_DIR$/example_server/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/example_server/build" />
     </content>
+    <content url="file://$MODULE_DIR$/screenshots" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Dart SDK" level="project" />
