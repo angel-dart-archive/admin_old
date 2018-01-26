@@ -48,7 +48,7 @@
 
         <iron-ajax
                 id="getSchema"
-                on-error="handleError"
+                on-error="__handleError"
                 last-response="{{schema}}"
                 loading="{{loading}}"
                 url="[[__computeSchemaUrl(url)]]"
@@ -77,6 +77,7 @@
 
         <template is="dom-if" if="[[schema]]">
             <admin-dashboard
+                    on-error="__handleError"
                     schema="{{schema}}"
                     url="[[url]]">
             </admin-dashboard>
@@ -115,7 +116,7 @@
           return `${url || ''}/schema`;
         }
 
-        handleError(e) {
+        __handleError(e) {
           let err = e.detail || e;
           err = err.error || err;
           this.errorMessage = err.message || err.toString();
@@ -126,7 +127,7 @@
           try {
             this.$.getSchema.generateRequest();
           } catch (e) {
-            this.handleError(e);
+            this.__handleError(e);
           }
         }
       }

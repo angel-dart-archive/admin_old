@@ -13,11 +13,11 @@ class AngelAdmin extends Router {
   });
 
   AngelAdmin({this.auth, this.serviceConfig}) {
-    get('/schema', schema);
-
     if (auth != null) {
       chain(validate(_directAuth)).post('/auth', directAuth);
     }
+
+    get('/schema', schema);
   }
 
   Map<String, dynamic> get schema {
@@ -39,7 +39,7 @@ class AngelAdmin extends Router {
 
     await auth.login(token, req, res);
     return {
-      'token': req.properties['token'],
+      'token': token.serialize(auth.hmac),
       'data': req.properties['user'],
     };
   }

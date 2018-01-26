@@ -67,7 +67,13 @@
 
         <iron-media-query query="(min-width: 769px)" query-matches="{{desktop}}"></iron-media-query>
 
-        <profile-manager id="profileManager" desktop="[[desktop]]" profiles="{{config.profiles}}"></profile-manager>
+        <profile-manager
+                id="profileManager"
+                desktop="[[desktop]]"
+                profile="{{profile}}"
+                profiles="{{config.profiles}}"
+                url="[[url]]">
+        </profile-manager>
 
         <paper-dialog
                 id="clearSchemaDialog"
@@ -89,9 +95,15 @@
             <paper-header-panel slot="drawer">
                 <paper-toolbar class="tall" slot="header">
                     <div class="title" slot="bottom">
-                        [No Active Profile]
+                        <template is="dom-if" if="[[!profile]]">
+                            [No Active Profile]
+                        </template>
+                        <template is="dom-if" if="[[profile]]">
+                            [[profile.name]]
+                        </template>
                     </div>
-                    <paper-icon-button on-tap="openProfileManager" icon="arrow-drop-down" slot="bottom"></paper-icon-button>
+                    <paper-icon-button on-tap="openProfileManager" icon="arrow-drop-down"
+                                       slot="bottom"></paper-icon-button>
                 </paper-toolbar>
                 <paper-listbox class="fit" selected="{{routeData.path}}" attr-for-selected="name">
                     <paper-icon-item on-tap="__clearSchema">
@@ -127,6 +139,7 @@
           return {
             config: Object,
             desktop: Boolean,
+            profile: Object,
             url: String,
             schema: {
               type: Object,
@@ -135,18 +148,13 @@
           };
         }
 
-        ready() {
-          super.ready();
-          this.$.config.reload();
+        __clearSchema() {
+          this.$.clearSchemaDialog.open();
         }
 
         __handleClearSchemaDialogClosed(e) {
           if (e.detail.confirmed)
             this.schema = null;
-        }
-
-        __clearSchema() {
-          this.$.clearSchemaDialog.open();
         }
 
         __initializeEmptyConfig() {
@@ -161,6 +169,11 @@
 
         openProfileManager() {
           this.$.profileManager.open();
+        }
+
+        ready() {
+          super.ready();
+          this.$.config.reload();
         }
       }
 

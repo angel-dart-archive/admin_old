@@ -2,6 +2,7 @@ library example_server.services;
 
 import 'dart:async';
 import 'package:angel_framework/angel_framework.dart';
+import 'user.dart' as user;
 
 /// Configure our application to use *services*.
 /// Services must be wired to the app via `app.use`.
@@ -11,4 +12,6 @@ import 'package:angel_framework/angel_framework.dart';
 ///
 /// Read more here:
 /// https://github.com/angel-dart/angel/wiki/Service-Basics
-Future configureServer(Angel app) async {}
+Future configureServer(Angel app) async {
+  await app.configure(user.configureServer());
+}

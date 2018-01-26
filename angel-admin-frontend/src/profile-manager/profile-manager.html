@@ -17,6 +17,7 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../angel-fetch/angel-fetch.html">
 
 <dom-module id="profile-manager">
     <template>
@@ -72,23 +73,30 @@
 
                 <template is="dom-if" if="[[profiles.length]]">
                     <paper-dropdown-menu label="Active Profile">
-                        <paper-listbox slot="dropdown-content">
+                        <paper-listbox
+                                on-iron-select="__handleSelect"
+                                selected="{{index}}"
+                                slot="dropdown-content">
                             <template is="dom-repeat" items="[[profiles]]" as="profile">
                                 <paper-icon-item>
                                     <iron-icon icon="social:person" slot="item-icon"></iron-icon>
                                     <paper-item-body two-line>
                                         <div>{{profile.name}}</div>
-                                        <div secondary>{{profile.user_id}}</div>
+                                        <div secondary>User ID: {{profile.user_id}}</div>
                                     </paper-item-body>
                                 </paper-icon-item>
                             </template>
+                            <paper-icon-item id="new-profile">
+                                <iron-icon icon="add" slot="item-icon"></iron-icon>
+                                New...
+                            </paper-icon-item>
                         </paper-listbox>
                     </paper-dropdown-menu>
                 </template>
             </paper-dialog-scrollable>
             <div class="buttons">
                 <paper-button dialog-dismiss autofocus>Cancel</paper-button>
-                <paper-button>Ok</paper-button>
+                <paper-button on-tap="switchProfile">Ok</paper-button>
             </div>
         </paper-dialog>
     </template>
@@ -101,9 +109,16 @@
 
         static get properties() {
           return {
+            url: String,
             index: {
               type: Number,
-              notify: true
+              notify: true,
+              value: null
+            },
+            profile: {
+              type: Object,
+              notify: true,
+              value: null // TODO: Try to load from localstorage if possible
             },
             profiles: {
               type: Array,
@@ -113,8 +128,55 @@
           };
         }
 
+        __handleSelect(e) {
+          if (e.detail.item.id === 'new-profile') {
+
+          }
+        }
+
+        close() {
+          this.$.dialog.close();
+        }
+
         open() {
           this.$.dialog.open();
+        }
+
+        switchProfile() {
+          if (this.index !== null) {
+            if (this.index === this.profiles.length)
+              return;
+
+            const profile = this.profiles[this.index];
+
+            if (profile.token) {
+              this.profile = profile;
+            } else {
+              const options = {
+                method: 'POST',
+                body: JSON.stringify({
+                  user_id: profile.user_id
+                }),
+                headers: {
+                  accept: 'application/json',
+                  'content-type': 'application/json'
+                }
+              };
+
+              angelFetch(`${this.url}/auth`, options).then(res => {
+                console.info(res);
+
+                if (!res.token)
+                  throw new Error('Server did not return valid authentication response.');
+
+                profile.token = res.token;
+                this.profile = profile;
+                this.set('profiles', this.profiles);
+              }).catch(e => {
+                this.dispatchEvent(new CustomEvent('error', {composed: true, detail: e}));
+              }).finally(() => this.close());
+            }
+          }
         }
       }
 
