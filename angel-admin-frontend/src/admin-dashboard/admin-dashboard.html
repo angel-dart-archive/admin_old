@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/iron-icons/device-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/social-icons.html">
 <link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
@@ -81,7 +82,7 @@
                 entry-animation="scale-up-animation"
                 exit-animation="fade-out-animation"
                 modal>
-            <h2>Really exit this server?</h2>
+            <h2>Leaving [[url]]</h2>
             <paper-dialog-scrollable>
                 Any unsaved work will be lost.
             </paper-dialog-scrollable>
@@ -106,6 +107,13 @@
                                        slot="bottom"></paper-icon-button>
                 </paper-toolbar>
                 <paper-listbox class="fit" selected="{{routeData.path}}" attr-for-selected="name">
+                    <paper-icon-item name="services">
+                        <iron-icon icon="device:storage" slot="item-icon"></iron-icon>
+                        <paper-item-body two-line>
+                            <div>Services</div>
+                            <div secondary>Manage application data</div>
+                        </paper-item-body>
+                    </paper-icon-item>
                     <paper-icon-item on-tap="__clearSchema">
                         <iron-icon icon="exit-to-app" slot="item-icon"></iron-icon>
                         <paper-item-body two-line>
